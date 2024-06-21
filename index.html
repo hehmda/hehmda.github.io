@@ -599,7 +599,7 @@
             submitButton.disabled = true;
             submitButton.innerHTML = '<div class="loader"></div>';
 
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbxz1gzlR2n6bwFFXLNwILrMXBkrGV1y9HzEg4PbjMQtNQ9oDeC_3nhc_Ob_SXT7yL2g/exec';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyel4uEBaPwKSVg5O8fim4wGHEOtGXBpJcuZGrrog4NiKl8BCnbjJVS4FOFeeF97EEYGw/exec';
 
             fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) })
                 .then(response => response.json())

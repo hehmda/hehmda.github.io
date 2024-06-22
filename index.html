@@ -243,6 +243,8 @@
         <div id="end-output"> koncovka </div>
     </div>
 
+    <div id="okByeMessage">
+    </div>
 
 
 
@@ -575,6 +577,24 @@
                 }, 500);
             });
 
+ document.getElementById('attendNoGroup').addEventListener('click', function() {
+        var okByeMessageElement = document.getElementById('okByeMessage');
+        var okByeText = "ok bye";
+
+        // Очистите текущий контент, если нужно
+        okByeMessageElement.innerHTML = '';
+
+        // Инициализация Typed.js для анимации вывода 'ok bye'
+        var typedOkByeMessage = new Typed(okByeMessageElement, {
+            strings: [okByeText],
+            typeSpeed: 70,
+            backSpeed: 25,
+            showCursor: false, // Опционально: чтобы не показывать курсор
+            onComplete: function() {
+                // Действия по завершению анимации, если нужно
+            }
+    });
+    });
  document.getElementById('weddingForm').addEventListener('submit', function(event) {
         event.preventDefault();
 

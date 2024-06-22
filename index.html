@@ -310,9 +310,9 @@
 
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData.entries());
-            data.welcomeDinner = formData.get('welcomeDinner') === 'on';
-            data.ceremonyReception = formData.get('ceremonyReception') === 'on';
-            data.recoveryBrunch = formData.get('recoveryBrunch') === 'on';
+            data.attend = formData.get('attend') === 'on';
+            data.dietary = formData.get('dietary') === 'on';
+            data.plusOne = formData.get('plus one \ guest name') === 'on';
 
             console.log(data); // Handle the data as needed
 
@@ -599,7 +599,7 @@
                 };
 
                 // Send data to Google Apps Script
-                fetch('https://script.google.com/macros/s/AKfycbxEJdO7FQ-Alk4-xRjiZQUxUI0ZbzRF7CpvoExV4-f_2nWOfMcS2uSvnNRoPBDlBP724g/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbxUQuHKODV8UqylOsNwPX6LUedDE5iLpPMp1x_jPhVOZgCHY5IrpZQ1ytQrRvBZWq-Klg/exec', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

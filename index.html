@@ -235,40 +235,36 @@
 
 <body>
   
-    <div id="firstpage">
-        <div id="typed-output"></div>
-    </div>
+<div id="firstpage">
+    <div id="typed-output"></div>
+</div>
 
-    <div id="endpage">
-        <div id="end-output"> koncovka </div>
-    </div>
+<div id="endpage">
+    <div id="end-output"></div>
+    <div id="okByeMessage"></div>
+</div>
 
-    <div id="okByeMessage">
-    </div>
-
-
-
-
-  <div class="centerform hidden">
-        <div class="form-container">
-            <form id="weddingForm" autocomplete="off">
-                <div class="form-group" id="nameGroup">
-                    <h2>~ The Wedding of Farihin & Ryder ~</h2>
-                    <input type="text" id="name" name="name" placeholder="Please Enter Your Name" autocomplete="off" autocomplete="false" required>
-                </div>
-                <div class="form-group" id="attendGroup">
-                    <h4>Can you attend?</h4>
-                    <div class="choices-group">
-                        <div class="radio-group" id="attendYesGroup">
-                            <input type="radio" id="attendYes" name="attend" value="Yes" required>
-                            <label for="attendYes">Yes</label>
-                        </div>
-                        <div class="radio-group" id="attendNoGroup">
-                            <input type="radio" id="attendNo" name="attend" value="No">
-                            <label for="attendNo">No</label>
-                        </div>
+<div class="centerform hidden">
+    <div class="form-container">
+        <form id="weddingForm" autocomplete="off">
+            <div class="form-group" id="nameGroup">
+                <h2>~ The Wedding of Farihin & Ryder ~</h2>
+                <input type="text" id="name" name="name" placeholder="Please Enter Your Name" autocomplete="off" required>
+            </div>
+            <div class="form-group" id="attendGroup">
+                <h4>Can you attend?</h4>
+                <div class="choices-group">
+                    <div class="radio-group" id="attendYesGroup">
+                        <input type="radio" id="attendYes" name="attend" value="Yes" required>
+                        <label for="attendYes">Yes</label>
+                    </div>
+                    <div class="radio-group" id="attendNoGroup">
+                        <input type="radio" id="attendNo" name="attend" value="No">
+                        <label for="attendNo">No</label>
                     </div>
                 </div>
+            </div>
+
                 <div class="form-group hidden-content" id="dietaryGroup">
                     <h4>Do you have any dietary restrictions?</h4>
                     <div class="choices-group">
@@ -597,9 +593,8 @@
         document.querySelector('.centerform').classList.add('hidden');
     });
 
-    // Обработчик выбора радиокнопки "No"
-    document.getElementById('attendNoGroup').addEventListener('click', function() {
-        if (document.getElementById('attendNo').checked) {
+    document.getElementById('attendNo').addEventListener('change', function() {
+        if (this.checked) {
             var okByeMessageElement = document.getElementById('okByeMessage');
             var okByeText = "ok bye";
 

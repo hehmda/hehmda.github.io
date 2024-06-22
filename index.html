@@ -579,25 +579,19 @@
     document.getElementById('weddingForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
-        // Предположим, что вы хотите анимировать вывод 'koncovka' с использованием Typed.js
         var endOutputElement = document.getElementById('end-output');
         var endMessage = "koncovka";
         
-        // Очистите текущий контент, если нужно
         endOutputElement.innerHTML = '';
 
-        // Инициализация Typed.js для анимации вывода 'koncovka'
         var typedEndMessage = new Typed(endOutputElement, {
             strings: [endMessage],
             typeSpeed: 70,
             backSpeed: 25,
-            showCursor: false, // Опционально: чтобы не показывать курсор
-            onComplete: function() {
-                // Действия по завершению анимации, если нужно
-            }
+            showCursor: false,
+            onComplete: function() {}
         });
 
-        // Показать блок 'endpage' с сообщением 'koncovka'
         document.getElementById('endpage').style.opacity = 1;
         document.getElementById('endpage').style.display = 'inline-block';
         document.querySelector('.centerform').classList.add('hidden');
@@ -605,22 +599,24 @@
 
     // Обработчик выбора радиокнопки "No"
     document.getElementById('attendNoGroup').addEventListener('click', function() {
-        var okByeMessageElement = document.getElementById('okByeMessage');
-        var okByeText = "ok bye";
+        if (document.getElementById('attendNo').checked) {
+            var okByeMessageElement = document.getElementById('okByeMessage');
+            var okByeText = "ok bye";
 
-        // Очистите текущий контент, если нужно
-        okByeMessageElement.innerHTML = '';
+            okByeMessageElement.innerHTML = '';
 
-        // Инициализация Typed.js для анимации вывода 'ok bye'
-        var typedOkByeMessage = new Typed(okByeMessageElement, {
-            strings: [okByeText],
-            typeSpeed: 70,
-            backSpeed: 25,
-            showCursor: false, // Опционально: чтобы не показывать курсор
-            onComplete: function() {
-                // Действия по завершению анимации, если нужно
-            }
-        });
+            var typedOkByeMessage = new Typed(okByeMessageElement, {
+                strings: [okByeText],
+                typeSpeed: 70,
+                backSpeed: 25,
+                showCursor: false,
+                onComplete: function() {}
+            });
+
+            document.getElementById('endpage').style.opacity = 1;
+            document.getElementById('endpage').style.display = 'inline-block';
+            document.querySelector('.centerform').classList.add('hidden');
+        }
     });
 });
 

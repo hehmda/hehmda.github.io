@@ -552,7 +552,7 @@
 
         window.scrollTo(0, 0);
 
-       document.addEventListener('DOMContentLoaded', function() {
+ document.addEventListener('DOMContentLoaded', function() {
     var options = {
         strings: ["You're invited to Farihin and Ryder’s Wedding Dinner, At the Four Seasons KL on Sat, 30 Nov at 5.00pm", "Click to RSVP "],
         typeSpeed: 70,
@@ -589,49 +589,32 @@
         document.getElementById('endpage').style.opacity = 1;
         document.getElementById('endpage').style.display = 'inline-block';
         document.querySelector('.centerform').classList.add('hidden');
-  // Get form data
-                var formData = new FormData(event.target);
-                var data = {
-                    name: formData.get('name'),
-                    attend: formData.get('attend'),
-                    dietary: formData.get('dietary') === 'Yes' ? formData.get('dietaryName') : 'No',
-                    plusOne: formData.get('plusOne') === 'Yes' ? formData.get('guestName') : 'No'
-                };
 
-                // Send data to Google Apps Script
-                fetch('https://script.google.com/macros/s/AKfycbzw7iMYqLWIe1hjdCX2-0Ep7FwWelIBSTigOaY3QyH5rNRjZGQ15wVSZ6Asa2gqZsRtyg/exec', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    
- body: new URLSearchParams({
-    'name': 'John Doe',
-    'attend': 'Yes',
-    'dietary': 'Yes',
-    'dietaryName': 'No restrictions',
-    'plusOne': 'Yes',
-    'guestName': 'Jane Doe'
-  })
+        // Get form data
+        var formData = new FormData(event.target);
+        var data = {
+            name: formData.get('name'),
+            attend: formData.get('attend'),
+            dietary: formData.get('dietary') === 'Yes' ? formData.get('dietaryName') : 'No',
+            plusOne: formData.get('plusOne') === 'Yes' ? formData.get('guestName') : 'No'
+        };
 
-.then(response => response.json())
-.then(data => {
-  console.log('Success:', data);
-})
-.catch(error => {
-  console.error('Error:', error);
-});
-
-\\body: JSON.stringify(data)
-\\                })
-\\               .then(response => response.json())
-\\                .then(result => {
-\\                    console.log('Success:', result);
-\\                })
-\\                .catch(error => {
-\\                    console.error('Error:', error);
-\\                });
-\\            });
+        // Send data to Google Apps Script
+        fetch('https://script.google.com/macros/s/AKfycbxEj1lWGDWEjuQCcoP3xSXvofmnm80IhgOSn0W8CWKHzXSwR4xU9ctKTYgoxJ_5DqnGKA/exec', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // Изменено на application/json
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log('Success:', result);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
 
     document.getElementById('attendNoGroup').addEventListener('click', function() {
         if (document.getElementById('attendNo').checked) {
@@ -659,9 +642,6 @@
             document.getElementById('endpage').style.opacity = 1;
             document.getElementById('endpage').style.display = 'inline-block';
             document.querySelector('.centerform').classList.add('hidden');
-
-
-  		
         }
     });
 });

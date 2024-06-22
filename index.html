@@ -234,46 +234,44 @@
 </head>
 
 <body>
-  
-<div id="firstpage">
-    <div id="typed-output"></div>
-</div>
+    <div id="firstpage">
+        <div id="typed-output"></div>
+    </div>
 
-<div id="endpage" style="display: none;">
-  <div id="end-output" style="max-width: 600px; word-wrap: break-word;"></div>
-    <div id="okByeMessage" style="opacity: 0; transition: opacity 1s; max-width: 600px; word-wrap: break-word;"></div>
-</div>
+    <div id="endpage" style="display: none;">
+        <div id="end-output" style="max-width: 600px; word-wrap: break-word;"></div>
+        <div id="okByeMessage" style="opacity: 0; transition: opacity 1s; max-width: 600px; word-wrap: break-word;"></div>
+    </div>
 
-<div class="centerform hidden">
-    <div class="form-container">
-        <form id="weddingForm" autocomplete="off">
-            <div class="form-group" id="nameGroup">
-                <h2>~ The Wedding of Farihin & Ryder ~</h2>
-                <input type="text" id="name" name="name" placeholder="Please Enter Your Name" autocomplete="off" required>
-            </div>
-            <div class="form-group" id="attendGroup">
-                <h4>Can you attend?</h4>
-                <div class="choices-group">
-                    <div class="radio-group" id="attendYesGroup">
-                        <input type="radio" id="attendYes" name="attend" value="Yes" required>
-                        <label for="attendYes">Yes</label>
-                    </div>
-                    <div class="radio-group" id="attendNoGroup">
-                        <input type="radio" id="attendNo" name="attend" value="No">
-                        <label for="attendNo">No</label>
+    <div class="centerform hidden">
+        <div class="form-container">
+            <form id="weddingForm" autocomplete="off">
+                <div class="form-group" id="nameGroup">
+                    <h2>~ The Wedding of Farihin & Ryder ~</h2>
+                    <input type="text" id="name" name="name" placeholder="Please Enter Your Name" autocomplete="off" required>
+                </div>
+                <div class="form-group" id="attendGroup">
+                    <h4>Can you attend?</h4>
+                    <div class="choices-group">
+                        <div class="radio-group" id="attendYesGroup">
+                            <input type="radio" id="attendYes" name="attend" value="Yes" required>
+                            <label for="attendYes">Yes</label>
+                        </div>
+                        <div class="radio-group" id="attendNoGroup">
+                            <input type="radio" id="attendNo" name="attend" value="No">
+                            <label for="attendNo">No</label>
+                        </div>
                     </div>
                 </div>
-            </div>
-
                 <div class="form-group hidden-content" id="dietaryGroup">
                     <h4>Do you have any dietary restrictions?</h4>
                     <div class="choices-group">
                         <div class="radio-group" id="dietaryNoGroup">
-                            <input type="radio" id="dietaryNo" name="attend" value="No" required>
+                            <input type="radio" id="dietaryNo" name="dietary" value="No" required>
                             <label for="dietaryNo">No</label>
                         </div>
                         <div class="radio-group" id="dietaryYesGroup">
-                            <input type="radio" id="dietaryYes" name="attend" value="Yes">
+                            <input type="radio" id="dietaryYes" name="dietary" value="Yes">
                             <label for="dietaryYes">Yes, specify</label>
                         </div>
                     </div>
@@ -293,7 +291,7 @@
                             <label for="plusOneNo">No</label>
                         </div>
                     </div>
-                </div> 
+                </div>
                 <div class="form-group hidden-content" id="guestNameGroup" style="height: 0;">
                     <input type="text" id="guestName" name="guestName" placeholder="Name of Guest" autocomplete="off">
                 </div>
@@ -591,12 +589,36 @@
         document.getElementById('endpage').style.opacity = 1;
         document.getElementById('endpage').style.display = 'inline-block';
         document.querySelector('.centerform').classList.add('hidden');
-    });
+  // Get form data
+                var formData = new FormData(event.target);
+                var data = {
+                    name: formData.get('name'),
+                    attend: formData.get('attend'),
+                    dietary: formData.get('dietary') === 'Yes' ? formData.get('dietaryName') : 'No',
+                    plusOne: formData.get('plusOne') === 'Yes' ? formData.get('guestName') : 'No'
+                };
+
+                // Send data to Google Apps Script
+                fetch('https://script.google.com/macros/s/AKfycbzUGYfq5i7aOrU5W_XVkb-vmXPVWoc6Cpp_6cCatMqz1Ing7t8M_qWCuyrvc_it-O9N5w/exec', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log('Success:', result);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
 
     document.getElementById('attendNoGroup').addEventListener('click', function() {
         if (document.getElementById('attendNo').checked) {
             var okByeMessageElement = document.getElementById('okByeMessage');
-            var okByeText = "ok bye";
+            var okByeText = "...bruh...";
 
             okByeMessageElement.innerHTML = '';
 
@@ -608,13 +630,20 @@
                 onComplete: function() {
                     setTimeout(function() {
                         okByeMessageElement.style.opacity = 1;
-                    }, 500); // Задержка перед плавным появлением
+                        // Set a timeout to hide the message after 5 seconds
+                        setTimeout(function() {
+                            okByeMessageElement.style.opacity = 0;
+                        }, 5000); // 5000 milliseconds = 5 seconds
+                    }, 300); // Delay before showing the message
                 }
             });
 
             document.getElementById('endpage').style.opacity = 1;
             document.getElementById('endpage').style.display = 'inline-block';
             document.querySelector('.centerform').classList.add('hidden');
+
+
+  		
         }
     });
 });

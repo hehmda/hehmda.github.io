@@ -599,10 +599,10 @@
                 };
 
                 // Send data to Google Apps Script
-                fetch('https://script.google.com/macros/s/AKfycbxUQuHKODV8UqylOsNwPX6LUedDE5iLpPMp1x_jPhVOZgCHY5IrpZQ1ytQrRvBZWq-Klg/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbxtTHoCRRnBQxiTo-dZDAYEpzBv3Txxjxvw_uKAqAvfDLXKu_ox1fN7G1HahU1PZ6wnEQ/exec', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     body: JSON.stringify(data)
                 })

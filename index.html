@@ -623,61 +623,134 @@
                 submitButton.innerHTML = 'Submit';
             });
     });
+function toggleAttendRadio(radioId, groupId) {
+    const radio = document.getElementById(radioId);
+    const group = document.getElementById(groupId);
 
-    function toggleRadioBackground(radioId, groupId) {
-        const radio = document.getElementById(radioId);
-        const group = document.getElementById(groupId);
+    group.addEventListener('click', function () {
+        radio.checked = true;
 
-        group.addEventListener('click', function () {
-            radio.checked = true;
+        if (groupId.startsWith('attendance')) {
+            document.querySelectorAll('.radio-group[id^="attendance"]').forEach(function (radioGroup) {
+                radioGroup.classList.remove('checked');
+            });
+            group.classList.add('checked');
 
             if (radioId === 'attendYes') {
-                document.getElementById('dietaryGroup').classList.add('visible-content');
-                document.getElementById('dietaryGroup').classList.remove('hidden-content');
-            } else if (radioId === 'attendNo') {
-                document.querySelector('.centerform').classList.add('hidden');
+                document.getElementById('lodgingGroup').classList.add('visible-content');
+                document.getElementById('lodgingGroup').classList.remove('hidden-content');
+            } else {
+                document.getElementById('lodgingGroup').classList.remove('visible-content');
+                document.getElementById('lodgingGroup').classList.add('hidden-content');
+                document.getElementById('plusOneGroup').classList.remove('visible-content');
+                document.getElementById('plusOneGroup').classList.add('hidden-content');
+                document.getElementById('submitButtonGroup').classList.remove('visible-content');
+                document.getElementById('submitButtonGroup').classList.add('hidden-content');
             }
+        }
+    });
+}
+function checkAttendanceSelections() {
+    const welcomeDinner = document.getElementById('welcomeDinner').checked;
+    const ceremonyReception = document.getElementById('ceremonyReception').checked;
+    const recoveryBrunch = document.getElementById('recoveryBrunch').checked;
+
+    if (welcomeDinner || ceremonyReception || recoveryBrunch) {
+        document.getElementById('lodgingGroup').classList.add('visible-content');
+        document.getElementById('lodgingGroup').classList.remove('hidden-content');
+    } else {
+        document.getElementById('lodgingGroup').classList.remove('visible-content');
+        document.getElementById('lodgingGroup').classList.add('hidden-content');
+        document.getElementById('plusOneGroup').classList.remove('visible-content');
+        document.getElementById('plusOneGroup').classList.add('hidden-content');
+        document.getElementById('submitButtonGroup').classList.remove('visible-content');
+        document.getElementById('submitButtonGroup').classList.add('hidden-content');
+    }
+}
+function toggleDietaryRadio(radioId, groupId) {
+    const radio = document.getElementById(radioId);
+    const group = document.getElementById(groupId);
+
+    group.addEventListener('click', function () {
+        radio.checked = true;
+
+        if (groupId.startsWith('dietary')) {
+            document.querySelectorAll('.radio-group[id^="dietary"]').forEach(function (radioGroup) {
+                radioGroup.classList.remove('checked');
+            });
+            group.classList.add('checked');
 
             if (radioId === 'dietaryYes') {
                 document.getElementById('dietarySpecifyGroup').style.height = '45px';
                 document.getElementById('dietarySpecifyGroup').classList.add('visible-content');
                 document.getElementById('dietarySpecifyGroup').classList.remove('hidden-content');
-            } else if (radioId === 'dietaryNo') {
+            } else {
                 document.getElementById('dietarySpecifyGroup').style.height = '0';
                 document.getElementById('dietarySpecifyGroup').classList.remove('visible-content');
                 document.getElementById('dietarySpecifyGroup').classList.add('hidden-content');
-                document.getElementById('plusOneGroup').classList.add('visible-content');
-                document.getElementById('plusOneGroup').classList.remove('hidden-content');
             }
+        }
+    });
+}
 
-            if (groupId.startsWith('plusOne')) {
-                document.querySelectorAll('.radio-group[id^="plusOne"]').forEach(function (radioGroup) {
-                    radioGroup.classList.remove('checked');
-                });
-                group.classList.add('checked');
+function toggleCheckboxBackground(checkboxId, groupId) {
+    const checkbox = document.getElementById(checkboxId);
+    const group = document.getElementById(groupId);
 
-                if (radioId === 'plusOneYes') {
-                    document.getElementById('guestNameGroup').style.height = '45px';
-                    document.getElementById('guestNameGroup').classList.add('visible-content');
-                    document.getElementById('guestNameGroup').classList.remove('hidden-content');
-                } else {
-                    document.getElementById('guestNameGroup').style.height = '0';
-                    document.getElementById('guestNameGroup').classList.remove('visible-content');
-                    document.getElementById('guestNameGroup').classList.add('hidden-content');
-                }
+    group.addEventListener('click', function () {
+        checkbox.checked = !checkbox.checked;
+        group.classList.toggle('checked', checkbox.checked);
+        checkAttendanceSelections();
+    });
+}
+
+    function toggleRadioBackground(radioId, groupId) {
+    const radio = document.getElementById(radioId);
+    const group = document.getElementById(groupId);
+
+    group.addEventListener('click', function () {
+        radio.checked = true;
+
+        if (groupId.startsWith('lodging')) {
+            document.querySelectorAll('.radio-group[id^="lodging"]').forEach(function (radioGroup) {
+                radioGroup.classList.remove('checked');
+            });
+            group.classList.add('checked');
+            document.getElementById('plusOneGroup').classList.add('visible-content');
+            document.getElementById('plusOneGroup').classList.remove('hidden-content');
+        } else if (groupId.startsWith('plusOne')) {
+            document.querySelectorAll('.radio-group[id^="plusOne"]').forEach(function (radioGroup) {
+                radioGroup.classList.remove('checked');
+            });
+            group.classList.add('checked');
+
+            if (radioId === 'plusOneYes') {
+                document.getElementById('guestNameGroup').style.height = '45px';
+                document.getElementById('guestNameGroup').classList.add('visible-content');
+                document.getElementById('guestNameGroup').classList.remove('hidden-content');
+            } else {
+                document.getElementById('guestNameGroup').style.height = '0';
+                document.getElementById('guestNameGroup').classList.remove('visible-content');
+                document.getElementById('guestNameGroup').classList.add('hidden-content');
             }
+        }
 
-            document.getElementById('submitButtonGroup').classList.add('visible-content');
-            document.getElementById('submitButtonGroup').classList.remove('hidden-content');
-        });
-    }
-
-    toggleRadioBackground('attendYes', 'attendanceGroup');
-    toggleRadioBackground('attendNo', 'attendanceGroup');
-    toggleRadioBackground('dietaryNo', 'dietaryGroup');
-    toggleRadioBackground('dietaryYes', 'dietaryGroup');
-    toggleRadioBackground('plusOneYes', 'plusOneYesGroup');
-    toggleRadioBackground('plusOneNo', 'plusOneNoGroup');
+        document.getElementById('submitButtonGroup').classList.add('visible-content');
+        document.getElementById('submitButtonGroup').classList.remove('hidden-content');
+    });
+}
+toggleAttendRadio('attendYes', 'attendanceYesGroup');
+toggleAttendRadio('attendNo', 'attendanceNoGroup');
+toggleCheckboxBackground('welcomeDinner', 'welcomeDinnerGroup');
+toggleCheckboxBackground('ceremonyReception', 'ceremonyReceptionGroup');
+toggleCheckboxBackground('recoveryBrunch', 'recoveryBrunchGroup');
+toggleDietaryRadio('dietaryNo', 'dietaryNoGroup');
+toggleDietaryRadio('dietaryYes', 'dietaryYesGroup');
+toggleRadioBackground('lodging1Night', 'lodging1NightGroup');
+toggleRadioBackground('lodging2Nights', 'lodging2NightsGroup');
+toggleRadioBackground('lodgingOwn', 'lodgingOwnGroup');
+toggleRadioBackground('plusOneYes', 'plusOneYesGroup');
+toggleRadioBackground('plusOneNo', 'plusOneNoGroup');
         
 let initialPosition = { x: 0, y: -2.8, z: 0 };
 let initialScale = 9;

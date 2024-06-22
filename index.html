@@ -558,7 +558,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             var options = {
-                strings: ["Welcome....", "This is the Bunga Telur (or Egg Flower)..", "Symbolizing blessings and new beginnings..","You are invited to attend our new beginning..", "The Wedding of Farihin and Ryder..", "Click to RSVP "],
+                strings: ["You're invited to Farihin and Ryder’s Wedding Dinner", "At the Four Seasons KL on Sat, 30 Nov at 5.00pm", "Click to RSVP "],
                 typeSpeed: 70,
                 backSpeed: 25,
                 loop: false
@@ -574,6 +574,35 @@
                     zoomInAndReposition(); // Call the zoom function here
                 }, 500);
             });
+
+ document.getElementById('weddingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Предположим, что вы хотите анимировать вывод 'koncovka' с использованием Typed.js
+        var endOutputElement = document.getElementById('end-output');
+        var endMessage = "koncovka";
+        
+        // Очистите текущий контент, если нужно
+        endOutputElement.innerHTML = '';
+
+        // Инициализация Typed.js для анимации вывода 'koncovka'
+        var typedEndMessage = new Typed(endOutputElement, {
+            strings: [endMessage],
+            typeSpeed: 70,
+            backSpeed: 25,
+            showCursor: false, // Опционально: чтобы не показывать курсор
+            onComplete: function() {
+                // Действия по завершению анимации, если нужно
+            }
+        });
+
+        // Показать блок 'endpage' с сообщением 'koncovka'
+        document.getElementById('endpage').style.opacity = 1;
+        document.getElementById('endpage').style.display = 'inline-block';
+        document.querySelector('.centerform').classList.add('hidden');
+    });
+
+
         });
 
        function zoomInAndReposition() {

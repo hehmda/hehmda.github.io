@@ -316,69 +316,68 @@
 </head>
 
 <body>
-  <section>
-    <div class="centerform" id="centerform">
+    <div id="firstpage">
+        <div id="typed-output"></div>
+    </div>
+    <div class="centerform hidden">
         <div class="form-container">
-            <div class="step-container" id="step1">
-                <h2>Can you attend?</h2>
-                <div class="choices-group">
-                    <div class="radio-group" onclick="handleRadioClick('attendYes')">
-                        <input type="radio" name="attend" id="attendYes">
-                        <label for="attendYes">Yes</label>
-                    </div>
-                    <div class="radio-group" onclick="handleRadioClick('attendNo')">
-                        <input type="radio" name="attend" id="attendNo">
-                        <label for="attendNo">No</label>
+            <form id="weddingForm" autocomplete="off">
+                <div class="form-group" id="nameGroup">
+                    <h2>The Wedding of Farihin & Ryder</h2>
+                    <small>[ KL, KL - 2025 ]</small>
+                    <input type="text" id="name" name="name" placeholder="Please Enter Your Name" autocomplete="off" required>
+                </div>
+                <div class="form-group" id="attendanceGroup">
+                    <h4>Can you attend?</h4>
+                    <div class="choices-group">
+                        <div class="checkbox-group" id="welcomeDinnerGroup">
+                            <input type="checkbox" id="welcomeDinner" name="welcomeDinner">
+                            <h3>Yes</h3>
+                        </div>
+                        <div class="checkbox-group" id="ceremonyReceptionGroup">
+                            <input type="checkbox" id="ceremonyReception" name="ceremonyReception">
+                            <h3>No </h3> 
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="step-container" id="step2">
-                <h2>Do you have any dietary restrictions?</h2>
-                <div class="choices-group">
-                    <div class="radio-group" onclick="handleDietRadioClick('dietNo')">
-                        <input type="radio" name="diet" id="dietNo">
-                        <label for="dietNo">No</label>
-                    </div>
-                    <div class="radio-group" onclick="handleDietRadioClick('dietYes')">
-                        <input type="radio" name="diet" id="dietYes">
-                        <label for="dietYes">Yes, specify</label>
-                    </div>
-                </div>
-                <div id="dietInput" class="hidden">
-                    <input type="text" id="dietText" placeholder="Please specify your dietary restrictions">
-                </div>
-            </div>
-
-            <div class="step-container" id="step3">
-                <h2>Do you have any guests?</h2>
-                <div class="choices-group">
-                    <div class="radio-group" onclick="handleRadioClick('guestNo')">
-                        <input type="radio" name="guest" id="guestNo">
-                        <label for="guestNo">No</label>
-                    </div>
-                    <div class="radio-group" onclick="handleRadioClick('guestYes')">
-                        <input type="radio" name="guest" id="guestYes">
-                        <label for="guestYes">Yes</label>
+                <div class="form-group hidden-content" id="lodgingGroup">
+                    <h4>Do you have any dietary restrictions?</h4>
+                    <div class="choices-group">
+                        <div class="radio-group" id="lodging1NightGroup">
+                            <input type="radio" id="lodging1Night" name="lodging" value="1 night" required>
+                            <label for="lodging1Night">No</label>
+                        </div>
+                        <div class="radio-group" id="lodging2NightsGroup">
+                            <input type="radio" id="lodging2Nights" name="lodging" value="2 nights">
+                            <label for="lodging2Nights">Yes, specify</label>
+                        </div>
                     </div>
                 </div>
-                <div id="guestInput" class="hidden">
-                    <input type="text" id="guestText" placeholder="Please enter your guest's name">
+                <div class="form-group hidden-content" id="plusOneGroup">
+                    <h4>Are you bringing a guest?</h4>
+                    <div class="choices-group">
+                        <div class="radio-group" id="plusOneYesGroup">
+                            <input type="radio" id="plusOneYes" name="plusOne" value="Yes" required>
+                            <label for="plusOneYes">Yes</label>
+                        </div>
+                        <div class="radio-group" id="plusOneNoGroup">
+                            <input type="radio" id="plusOneNo" name="plusOne" value="No">
+                            <label for="plusOneNo">No</label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <div id="finalMessage" class="hidden-content">
-                <h2 id="successMessage">Thank you for completing the form!</h2>
-                <p id="dresscode">Dress code: Casual</p>
-            </div>
-
-            <button id="nextButton" onclick="handleNextClick()">Next</button>
+                <div class="form-group hidden-content" id="guestNameGroup" style="height: 0;">
+                    <input type="text" id="guestName" name="guestName" placeholder="Name of Guest" autocomplete="off">
+                </div>
+                <div class="form-group hidden-content" id="submitButtonGroup">
+                    <button type="submit" id="submitButton">Submit</button>
+                </div>
+            </form>
         </div>
     </div>
-</section>
-<div id="successMessage" class="centerform hidden">
-    <div id="typed-success-output"></div>
-</div>
+    <div id="successMessage" class="centerform hidden">
+        <div id="typed-success-output"></div>
+    </div>
    
     <script type="module">
         import * as THREE from "../build/three.module.js";
@@ -577,138 +576,123 @@
         let paused = false;
 
         document.getElementById('weddingForm').addEventListener('submit', function (event) {
-    event.preventDefault();
+            event.preventDefault();
 
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData.entries());
-    data.welcomeDinner = formData.get('welcomeDinner') === 'on';
-    data.ceremonyReception = formData.get('ceremonyReception') === 'on';
-    data.recoveryBrunch = formData.get('recoveryBrunch') === 'on';
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+            data.welcomeDinner = formData.get('welcomeDinner') === 'on';
+            data.ceremonyReception = formData.get('ceremonyReception') === 'on';
+            data.recoveryBrunch = formData.get('recoveryBrunch') === 'on';
 
-    const submitButton = document.getElementById('submitButton');
-    submitButton.disabled = true;
-    submitButton.innerHTML = '<div class="loader"></div>';
+            const submitButton = document.getElementById('submitButton');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<div class="loader"></div>';
 
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzgGFvmWjAhdFZNnXs5yzlvCAcU3QR9yGJ2ibos0pUlxtF_RemCVyXNXuXVflm5B8nGBw/exec';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbzgGFvmWjAhdFZNnXs5yzlvCAcU3QR9yGJ2ibos0pUlxtF_RemCVyXNXuXVflm5B8nGBw/exec';
 
-    fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) })
-        .then(response => response.json())
-        .then(result => {
-            if (result.result === 'success') {
-                console.log('Form submitted successfully');
-                document.querySelector('.centerform').classList.add('hidden');
-                document.getElementById('successMessage').classList.remove('hidden');
-                var options = {
-                    strings: [
-                        "Dress code:",
-                        "Pastel or neutral-coloured (i.e. no bright colours) traditional Malaysian formal-ware",
-                        "The more traditional, the better (e.g. kebaya songket, sarees, cheongsams)"
-                    ],
-                    typeSpeed: 70,
-                    backSpeed: 25,
-                    loop: false
-                };
-                new Typed("#typed-success-output", options);
-                reset3DObject();
-            } else {
-                throw new Error('Error submitting form: ' + result);
-            }
-        })
-        .catch(error => {
-            console.error('Error!', error.message);
-            alert('Error submitting form: ' + error.message);
-        })
-        .finally(() => {
-            submitButton.disabled = false;
-            submitButton.innerHTML = 'Submit';
+            fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.result === 'success') {
+                        console.log('Form submitted successfully');
+                        document.querySelector('.centerform').classList.add('hidden');
+                        document.getElementById('successMessage').classList.remove('hidden');
+                        var options = {
+                            strings: ["Dress code:." , "Pastel or neutral-coloured (i.e. no bright colours) traditional Malaysian formal-ware", "The more traditional, the better (e.g. kebaya songket, sarees, cheongsams"],
+                            typeSpeed: 70,
+                            backSpeed: 25,
+                            loop: false
+                        };
+                        new Typed("#typed-success-output", options);
+                        reset3DObject();
+                    } else {
+                        throw new Error('Error submitting form: ' + result);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    alert('Error submitting form: ' + error.message);
+                })
+                .finally(() => {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Submit';
+                });
         });
-});
 
-function toggleCheckboxBackground(checkboxId, groupId) {
-    const checkbox = document.getElementById(checkboxId);
-    const group = document.getElementById(groupId);
+        function toggleCheckboxBackground(checkboxId, groupId) {
+            const checkbox = document.getElementById(checkboxId);
+            const group = document.getElementById(groupId);
 
-    group.addEventListener('click', function () {
-        checkbox.checked = !checkbox.checked;
-        group.classList.toggle('checked', checkbox.checked);
-        checkAttendanceSelections();
-    });
-}
-
-function checkAttendanceSelections() {
-    const welcomeDinner = document.getElementById('welcomeDinner').checked;
-    const ceremonyReception = document.getElementById('ceremonyReception').checked;
-    const recoveryBrunch = document.getElementById('recoveryBrunch').checked;
-
-    if (welcomeDinner || ceremonyReception || recoveryBrunch) {
-        document.getElementById('lodgingGroup').classList.add('visible-content');
-        document.getElementById('lodgingGroup').classList.remove('hidden-content');
-    } else {
-        document.getElementById('lodgingGroup').classList.remove('visible-content');
-        document.getElementById('lodgingGroup').classList.add('hidden-content');
-        document.getElementById('plusOneGroup').classList.remove('visible-content');
-        document.getElementById('plusOneGroup').classList.add('hidden-content');
-        document.getElementById('submitButtonGroup').classList.remove('visible-content');
-        document.getElementById('submitButtonGroup').classList.add('hidden-content');
-    }
-}
-
-function toggleRadioBackground(radioId, groupId) {
-    const radio = document.getElementById(radioId);
-    const group = document.getElementById(groupId);
-
-    group.addEventListener('click', function () {
-        radio.checked = true;
-
-        if (groupId.startsWith('lodging')) {
-            document.querySelectorAll('.radio-group[id^="lodging"]').forEach(function (radioGroup) {
-                radioGroup.classList.remove('checked');
+            group.addEventListener('click', function () {
+                checkbox.checked = !checkbox.checked;
+                group.classList.toggle('checked', checkbox.checked);
+                checkAttendanceSelections();
             });
-            group.classList.add('checked');
-            document.getElementById('plusOneGroup').classList.add('visible-content');
-            document.getElementById('plusOneGroup').classList.remove('hidden-content');
-        } else if (groupId.startsWith('plusOne')) {
-            document.querySelectorAll('.radio-group[id^="plusOne"]').forEach(function (radioGroup) {
-                radioGroup.classList.remove('checked');
-            });
-            group.classList.add('checked');
+        }
 
-            if (radioId === 'plusOneYes') {
-                document.getElementById('guestNameGroup').style.height = '45px';
-                document.getElementById('guestNameGroup').classList.add('visible-content');
-                document.getElementById('guestNameGroup').classList.remove('hidden-content');
+        function checkAttendanceSelections() {
+            const welcomeDinner = document.getElementById('welcomeDinner').checked;
+            const ceremonyReception = document.getElementById('ceremonyReception').checked;
+            const recoveryBrunch = document.getElementById('recoveryBrunch').checked;
+
+            if (welcomeDinner || ceremonyReception || recoveryBrunch) {
+                document.getElementById('lodgingGroup').classList.add('visible-content');
+                document.getElementById('lodgingGroup').classList.remove('hidden-content');
             } else {
-                document.getElementById('guestNameGroup').style.height = '0';
-                document.getElementById('guestNameGroup').classList.remove('visible-content');
-                document.getElementById('guestNameGroup').classList.add('hidden-content');
+                document.getElementById('lodgingGroup').classList.remove('visible-content');
+                document.getElementById('lodgingGroup').classList.add('hidden-content');
+                document.getElementById('plusOneGroup').classList.remove('visible-content');
+                document.getElementById('plusOneGroup').classList.add('hidden-content');
+                document.getElementById('submitButtonGroup').classList.remove('visible-content');
+                document.getElementById('submitButtonGroup').classList.add('hidden-content');
             }
         }
 
-        document.getElementById('submitButtonGroup').classList.add('visible-content');
-        document.getElementById('submitButtonGroup').classList.remove('hidden-content');
-    });
-}
+        function toggleRadioBackground(radioId, groupId) {
+            const radio = document.getElementById(radioId);
+            const group = document.getElementById(groupId);
 
-function handleDietRadioClick(radioId) {
-    if (radioId === 'dietYes') {
-        document.getElementById('dietInput').classList.remove('hidden');
-    } else {
-        document.getElementById('dietInput').classList.add('hidden');
-        // Navigate to the next question
-        document.getElementById('step2').classList.add('hidden');
-        document.getElementById('step3').classList.remove('hidden');
-    }
-}
+            group.addEventListener('click', function () {
+                radio.checked = true;
 
-// Existing event listeners for checkbox and radio button toggles
-toggleCheckboxBackground('welcomeDinner', 'welcomeDinnerGroup');
-toggleCheckboxBackground('ceremonyReception', 'ceremonyReceptionGroup');
-toggleCheckboxBackground('recoveryBrunch', 'recoveryBrunchGroup');
-toggleRadioBackground('lodging1Night', 'lodging1NightGroup');
-toggleRadioBackground('lodging2Nights', 'lodging2NightsGroup');
-toggleRadioBackground('lodgingOwn', 'lodgingOwnGroup');
-toggleRadioBackground('plusOneYes', 'plusOneYesGroup');
-toggleRadioBackground('plusOneNo', 'plusOneNoGroup');
+                if (groupId.startsWith('lodging')) {
+                    document.querySelectorAll('.radio-group[id^="lodging"]').forEach(function (radioGroup) {
+                        radioGroup.classList.remove('checked');
+                    });
+                    group.classList.add('checked');
+                    document.getElementById('plusOneGroup').classList.add('visible-content');
+                    document.getElementById('plusOneGroup').classList.remove('hidden-content');
+                } else if (groupId.startsWith('plusOne')) {
+                    document.querySelectorAll('.radio-group[id^="plusOne"]').forEach(function (radioGroup) {
+                        radioGroup.classList.remove('checked');
+                    });
+                    group.classList.add('checked');
+
+                    if (radioId === 'plusOneYes') {
+                        document.getElementById('guestNameGroup').style.height = '45px';
+                        document.getElementById('guestNameGroup').classList.add('visible-content');
+                        document.getElementById('guestNameGroup').classList.remove('hidden-content');
+                    } else {
+                        document.getElementById('guestNameGroup').style.height = '0';
+                        document.getElementById('guestNameGroup').classList.remove('visible-content');
+                        document.getElementById('guestNameGroup').classList.add('hidden-content');
+                    }
+                }
+
+                document.getElementById('submitButtonGroup').classList.add('visible-content');
+                document.getElementById('submitButtonGroup').classList.remove('hidden-content');
+            });
+        }
+
+        toggleCheckboxBackground('welcomeDinner', 'welcomeDinnerGroup');
+        toggleCheckboxBackground('ceremonyReception', 'ceremonyReceptionGroup');
+        toggleCheckboxBackground('recoveryBrunch', 'recoveryBrunchGroup');
+        toggleRadioBackground('lodging1Night', 'lodging1NightGroup');
+        toggleRadioBackground('lodging2Nights', 'lodging2NightsGroup');
+        toggleRadioBackground('lodgingOwn', 'lodgingOwnGroup');
+        toggleRadioBackground('plusOneYes', 'plusOneYesGroup');
+        toggleRadioBackground('plusOneNo', 'plusOneNoGroup');
+
         
 let initialPosition = { x: 0, y: -2.8, z: 0 };
 let initialScale = 9;

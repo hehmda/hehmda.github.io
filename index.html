@@ -239,7 +239,7 @@
     <div id="typed-output"></div>
 </div>
 
-<div id="endpage">
+<div id="endpage" style="display: none;">
     <div id="end-output"></div>
     <div id="okByeMessage"></div>
 </div>
@@ -554,7 +554,7 @@
 
         window.scrollTo(0, 0);
 
-        document.addEventListener('DOMContentLoaded', function() {
+       document.addEventListener('DOMContentLoaded', function() {
     var options = {
         strings: ["You're invited to Farihin and Ryder’s Wedding Dinner", "At the Four Seasons KL on Sat, 30 Nov at 5.00pm", "Click to RSVP "],
         typeSpeed: 70,
@@ -593,8 +593,10 @@
         document.querySelector('.centerform').classList.add('hidden');
     });
 
-    document.getElementById('attendNo').addEventListener('change', function() {
-        if (this.checked) {
+    document.getElementById('attendNoGroup').addEventListener('click', function() {
+        console.log("attendNoGroup clicked");
+        if (document.getElementById('attendNo').checked) {
+            console.log("attendNo is checked");
             var okByeMessageElement = document.getElementById('okByeMessage');
             var okByeText = "ok bye";
 

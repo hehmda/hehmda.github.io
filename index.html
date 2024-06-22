@@ -240,8 +240,8 @@
 </div>
 
 <div id="endpage" style="display: none;">
-    <div id="end-output"></div>
-    <div id="okByeMessage"></div>
+  <div id="end-output" style="max-width: 600px; word-wrap: break-word;"></div>
+    <div id="okByeMessage" style="opacity: 0; transition: opacity 1s; max-width: 600px; word-wrap: break-word;"></div>
 </div>
 
 <div class="centerform hidden">
@@ -576,7 +576,7 @@
         event.preventDefault();
 
         var endOutputElement = document.getElementById('end-output');
-        var endMessage = "koncovka";
+        var endMessage = "Dress code: Pastel or neutral-coloured (i.e. no bright colours) traditional Malaysian formal-ware. The more traditional, the better (e.g. kebaya songket, sarees, cheongsams)";
         
         endOutputElement.innerHTML = '';
 
@@ -594,9 +594,7 @@
     });
 
     document.getElementById('attendNoGroup').addEventListener('click', function() {
-        console.log("attendNoGroup clicked");
         if (document.getElementById('attendNo').checked) {
-            console.log("attendNo is checked");
             var okByeMessageElement = document.getElementById('okByeMessage');
             var okByeText = "ok bye";
 
@@ -607,7 +605,11 @@
                 typeSpeed: 70,
                 backSpeed: 25,
                 showCursor: false,
-                onComplete: function() {}
+                onComplete: function() {
+                    setTimeout(function() {
+                        okByeMessageElement.style.opacity = 1;
+                    }, 500); // Задержка перед плавным появлением
+                }
             });
 
             document.getElementById('endpage').style.opacity = 1;

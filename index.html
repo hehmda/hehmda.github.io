@@ -316,69 +316,69 @@
 </head>
 
 <body>
-     <section>
-        <div class="centerform" id="centerform">
-            <div class="form-container">
-                <div class="step-container" id="step1">
-                    <h2>Can you attend?</h2>
-                    <div class="choices-group">
-                        <div class="radio-group" onclick="handleRadioClick('attendYes')">
-                            <input type="radio" name="attend" id="attendYes">
-                            <label for="attendYes">Yes</label>
-                        </div>
-                        <div class="radio-group" onclick="handleRadioClick('attendNo')">
-                            <input type="radio" name="attend" id="attendNo">
-                            <label for="attendNo">No</label>
-                        </div>
+  <section>
+    <div class="centerform" id="centerform">
+        <div class="form-container">
+            <div class="step-container" id="step1">
+                <h2>Can you attend?</h2>
+                <div class="choices-group">
+                    <div class="radio-group" onclick="handleRadioClick('attendYes')">
+                        <input type="radio" name="attend" id="attendYes">
+                        <label for="attendYes">Yes</label>
+                    </div>
+                    <div class="radio-group" onclick="handleRadioClick('attendNo')">
+                        <input type="radio" name="attend" id="attendNo">
+                        <label for="attendNo">No</label>
                     </div>
                 </div>
-
-                <div class="step-container" id="step2">
-                    <h2>Do you have any dietary restrictions?</h2>
-                    <div class="choices-group">
-                        <div class="radio-group" onclick="handleRadioClick('dietNo')">
-                            <input type="radio" name="diet" id="dietNo">
-                            <label for="dietNo">No</label>
-                        </div>
-                        <div class="radio-group" onclick="handleRadioClick('dietYes')">
-                            <input type="radio" name="diet" id="dietYes">
-                            <label for="dietYes">Yes, specify</label>
-                        </div>
-                    </div>
-                    <div id="dietInput" class="hidden">
-                        <input type="text" id="dietText" placeholder="Please specify your dietary restrictions">
-                    </div>
-                </div>
-
-                <div class="step-container" id="step3">
-                    <h2>Do you have any guests?</h2>
-                    <div class="choices-group">
-                        <div class="radio-group" onclick="handleRadioClick('guestNo')">
-                            <input type="radio" name="guest" id="guestNo">
-                            <label for="guestNo">No</label>
-                        </div>
-                        <div class="radio-group" onclick="handleRadioClick('guestYes')">
-                            <input type="radio" name="guest" id="guestYes">
-                            <label for="guestYes">Yes</label>
-                        </div>
-                    </div>
-                    <div id="guestInput" class="hidden">
-                        <input type="text" id="guestText" placeholder="Please enter your guest's name">
-                    </div>
-                </div>
-
-                <div id="finalMessage" class="hidden-content">
-                    <h2 id="successMessage">Thank you for completing the form!</h2>
-                    <p id="dresscode">Dress code: Casual</p>
-                </div>
-
-                <button id="nextButton" onclick="handleNextClick()">Next</button>
             </div>
+
+            <div class="step-container" id="step2">
+                <h2>Do you have any dietary restrictions?</h2>
+                <div class="choices-group">
+                    <div class="radio-group" onclick="handleDietRadioClick('dietNo')">
+                        <input type="radio" name="diet" id="dietNo">
+                        <label for="dietNo">No</label>
+                    </div>
+                    <div class="radio-group" onclick="handleDietRadioClick('dietYes')">
+                        <input type="radio" name="diet" id="dietYes">
+                        <label for="dietYes">Yes, specify</label>
+                    </div>
+                </div>
+                <div id="dietInput" class="hidden">
+                    <input type="text" id="dietText" placeholder="Please specify your dietary restrictions">
+                </div>
+            </div>
+
+            <div class="step-container" id="step3">
+                <h2>Do you have any guests?</h2>
+                <div class="choices-group">
+                    <div class="radio-group" onclick="handleRadioClick('guestNo')">
+                        <input type="radio" name="guest" id="guestNo">
+                        <label for="guestNo">No</label>
+                    </div>
+                    <div class="radio-group" onclick="handleRadioClick('guestYes')">
+                        <input type="radio" name="guest" id="guestYes">
+                        <label for="guestYes">Yes</label>
+                    </div>
+                </div>
+                <div id="guestInput" class="hidden">
+                    <input type="text" id="guestText" placeholder="Please enter your guest's name">
+                </div>
+            </div>
+
+            <div id="finalMessage" class="hidden-content">
+                <h2 id="successMessage">Thank you for completing the form!</h2>
+                <p id="dresscode">Dress code: Casual</p>
+            </div>
+
+            <button id="nextButton" onclick="handleNextClick()">Next</button>
         </div>
-    </section>
-    <div id="successMessage" class="centerform hidden">
-        <div id="typed-success-output"></div>
     </div>
+</section>
+<div id="successMessage" class="centerform hidden">
+    <div id="typed-success-output"></div>
+</div>
    
     <script type="module">
         import * as THREE from "../build/three.module.js";

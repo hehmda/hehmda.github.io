@@ -305,7 +305,8 @@
 
 
 
-   document.addEventListener('DOMContentLoaded', function() {
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
             var options = {
                 strings: ["You're invited to Farihin and Ryder’s Wedding Dinner, At the Four Seasons KL on Sat, 30 Nov at 5.00pm", "Click to RSVP "],
                 typeSpeed: 70,
@@ -352,13 +353,12 @@
                     plusOne: formData.get('plusOne') === 'Yes' ? formData.get('guestName') : 'No'
                 };
 
+                // Convert data object to query string
+                var queryString = new URLSearchParams(data).toString();
+
                 // Send data to Google Apps Script
-                fetch('https://script.google.com/macros/s/AKfycbwpDhysnjCJIvmUAvyTzx_ACFlZ4ICdWPK6y4pFrXZNdrpDLtg65eyyEcUrexhURXDiZA/exec', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
+                fetch('https://script.google.com/macros/s/AKfycbwpDhysnjCJIvmUAvyTzx_ACFlZ4ICdWPK6y4pFrXZNdrpDLtg65eyyEcUrexhURXDiZA/exec?' + queryString, {
+                    method: 'GET',
                 })
                 .then(response => response.json())
                 .then(result => {
@@ -369,8 +369,7 @@
                 });
             });
 
-
-     document.getElementById('attendNoGroup').addEventListener('click', function() {
+            document.getElementById('attendNoGroup').addEventListener('click', function() {
                 if (document.getElementById('attendNo').checked) {
                     var okByeMessageElement = document.getElementById('okByeMessage');
                     var okByeText = "...bruh...";
@@ -398,83 +397,8 @@
                     document.querySelector('.centerform').classList.add('hidden');
                 }
             });
-});
 
-       function zoomInAndReposition() {
-    // Update the camera and object position
-    const targetPosition = { x: 0, y: 0.9, z: 0.6 }; // New camera position
-    const duration = 0; // Duration of the animation in milliseconds
-    const startPosition = { x: camera.position.x, y: camera.position.y, z: camera.position.z };
-    const startTime = performance.now();
-
-    // Initial and target material property values
-    const initialMaterialProperties = { envMapIntensity: 6.0 }; // Example initial value
-    const targetMaterialProperties = { envMapIntensity: 0.1 }; // Example target value
-
-    function animateZoom(time) {
-        const elapsed = time - startTime;
-        const t = Math.min(elapsed / duration, 1);
-
-        // Interpolate camera position
-        camera.position.set(
-            startPosition.x + (targetPosition.x - startPosition.x) * t,
-            startPosition.y + (targetPosition.y - startPosition.y) * t,
-            startPosition.z + (targetPosition.z - startPosition.z) * t
-        );
-
-        // Interpolate material properties
-        scene.traverse((child) => {
-            if (child.isMesh) {
-                child.material.envMapIntensity = initialMaterialProperties.envMapIntensity +
-                                                 (targetMaterialProperties.envMapIntensity - initialMaterialProperties.envMapIntensity) * t;
-                child.material.needsUpdate = true; // Ensure material is updated
-            }
-        });
-
-        controls.target.set(0, 0, 0); // Update the target to keep the object centered
-        controls.update();
-
-        if (t < 1) {
-            requestAnimationFrame(animateZoom);
-        }
-    }
-
-    requestAnimationFrame(animateZoom);
-}
-
-    </script>
-
-    <script>
-        document.getElementById('weddingForm').addEventListener('submit', function(event) {
-    //        event.preventDefault();
-//
-    //        const formData = new FormData(event.target);
-    //        const data = Object.fromEntries(formData.entries());
-    //        data.attend = formData.get('attend') === 'on';
-    //        data.dietary = formData.get('dietary') === 'on';
-     //       data.plusOne = formData.get('plus one \ guest name') === 'on';
-
-     //       console.log(data); // Handle the data as needed
-//
-            // show end text
-            document.getElementById('endpage').style.opacity = 1;
-            document.getElementById('endpage').style.display = 'inline-block';
-            document.querySelector('.centerform').classList.add('hidden');
-//
-            // alert('Form submitted successfully!');
-        });
-
-        function toggleCheckboxBackground(checkboxId, groupId) {
-            const checkbox = document.getElementById(checkboxId);
-            const group = document.getElementById(groupId);
-
-            group.addEventListener('click', function() {
-                checkbox.checked = !checkbox.checked;
-                group.classList.toggle('checked', checkbox.checked);
-            });
-        }
-
-        function toggleRadioBackground(radioId, groupId) {
+            function toggleRadioBackground(radioId, groupId) {
                 const radio = document.getElementById(radioId);
                 const group = document.getElementById(groupId);
 
@@ -561,8 +485,7 @@
             toggleRadioBackground('plusOneYes', 'plusOneYesGroup');
             toggleRadioBackground('plusOneNo', 'plusOneNoGroup');
         });
-}
-
+    </script>
 
     <script type="module">
         import * as THREE from "./build/three.module.js";

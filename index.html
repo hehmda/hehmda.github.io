@@ -356,7 +356,7 @@
                 fetch('https://script.google.com/macros/s/AKfycbwpDhysnjCJIvmUAvyTzx_ACFlZ4ICdWPK6y4pFrXZNdrpDLtg65eyyEcUrexhURXDiZA/exec', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json' // Изменено на application/json
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(data)
                 })
@@ -561,7 +561,7 @@
             toggleRadioBackground('plusOneYes', 'plusOneYesGroup');
             toggleRadioBackground('plusOneNo', 'plusOneNoGroup');
         });
-    </script>
+}
 
 
     <script type="module">
@@ -692,6 +692,7 @@
         }
 
         window.scrollTo(0, 0);
+    </script>
 </body>
 
 </html>

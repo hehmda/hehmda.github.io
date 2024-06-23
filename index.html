@@ -299,13 +299,10 @@
                     <button type="submit">Submit</button>
                 </div>
             </form>
+            <button id="addToCalendar" style="display: none;">Add to Calendar</button>
         </div>
     </div>
-
-
-
-
-     <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             var options = {
                 strings: ["You're invited to Farihin and Ryder’s Wedding Dinner, At the Four Seasons KL on Sat, 30 Nov at 5.00pm", "Click to RSVP "],
@@ -353,20 +350,46 @@
                     plusOne: formData.get('plusOne') === 'Yes' ? formData.get('guestName') : 'No'
                 };
 
-                // Convert data object to query string
-                var queryString = new URLSearchParams(data).toString();
-
                 // Send data to Google Apps Script
-                fetch('https://script.google.com/macros/s/AKfycbyB9Uy199z1faqkqMFYTtxO0PSGjXMmv5tX4kWdwobHtgpSdLe0U16atGSoEtbUmsA4HQ/exec?' + queryString, {
-                    method: 'GET',
+                fetch('https://script.google.com/macros/s/AKfycbzQirTsNVyy9Au2VytMSWK5OKU2klkkR_Br05qA2R-i3rbapJ5w6DHS7fxzqQ6RNNlTIg/exec', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
                 })
                 .then(response => response.json())
                 .then(result => {
                     console.log('Success:', result);
+                    // Show the "Add to Calendar" button
+                    document.getElementById('addToCalendar').style.display = 'block';
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
+            });
+
+            document.getElementById('addToCalendar').addEventListener('click', function() {
+                var event = {
+                    'summary': 'Farihin and Ryder’s Wedding Dinner',
+                    'location': 'Yun House, Four Season',
+                    'description': 'Wedding dinner at Yun House, Four Seasons KL',
+                    'start': {
+                      'dateTime': '2024-01-25T17:00:00',
+                      'timeZone': 'Asia/Kuala_Lumpur'
+                    },
+                    'end': {
+                      'dateTime': '2024-01-25T20:00:00',
+                      'timeZone': 'Asia/Kuala_Lumpur'
+                    }
+                };
+
+                var link = document.createElement('a');
+                link.href = 'https://www.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(event.summary) +
+                            '&dates=' + event.start.dateTime.replace(/-|:|\.\d\d\d/g, '') + '/' + event.end.dateTime.replace(/-|:|\.\d\d\d/g, '') +
+                            '&details=' + encodeURIComponent(event.description) + '&location=' + encodeURIComponent(event.location);
+                link.target = '_blank';
+                link.click();
             });
 
             document.getElementById('attendNoGroup').addEventListener('click', function() {
@@ -384,11 +407,10 @@
                         onComplete: function() {
                             setTimeout(function() {
                                 okByeMessageElement.style.opacity = 1;
-                                // Set a timeout to hide the message after 5 seconds
                                 setTimeout(function() {
                                     okByeMessageElement.style.opacity = 0;
-                                }, 5000); // 5000 milliseconds = 5 seconds
-                            }, 300); // Delay before showing the message
+                                }, 5000);
+                            }, 300);
                         }
                     });
 
@@ -397,94 +419,96 @@
                     document.querySelector('.centerform').classList.add('hidden');
                 }
             });
-
-            function toggleRadioBackground(radioId, groupId) {
-                const radio = document.getElementById(radioId);
-                const group = document.getElementById(groupId);
-
-                group.addEventListener('click', function() {
-                    radio.checked = true;
-
-                    if (groupId.startsWith('attend')) {
-                        // attend check group
-                        document.querySelectorAll('.radio-group[id^="attend"]').forEach(function(radioGroup) {
-                            radioGroup.classList.remove('checked');
-                        });
-                        group.classList.add('checked');
-
-                        if (radioId === 'attendYes') {
-                            // show diet
-                            document.getElementById('dietaryGroup').classList.add('visible-content');
-                            document.getElementById('dietaryGroup').classList.remove('hidden-content');
-                        } else {
-                            // hide all elements
-                            document.getElementById('dietaryGroup').classList.remove('visible-content');
-                            document.getElementById('dietaryGroup').classList.add('hidden-content');
-
-                            document.getElementById('plusOneGroup').classList.remove('visible-content');
-                            document.getElementById('plusOneGroup').classList.add('hidden-content');
-
-                            document.getElementById('dietaryNameGroup').style.height = '0';
-                            document.getElementById('dietaryNameGroup').classList.remove('visible-content');
-                            document.getElementById('dietaryNameGroup').classList.add('hidden-content');
-
-                            document.getElementById('guestNameGroup').style.height = '0';
-                            document.getElementById('guestNameGroup').classList.remove('visible-content');
-                            document.getElementById('guestNameGroup').classList.add('hidden-content');
-
-                            document.getElementById('submitButtonGroup').classList.remove('visible-content');
-                            document.getElementById('submitButtonGroup').classList.add('hidden-content');
-                        }
-                    } else if (groupId.startsWith('dietary')) {
-                        // dietary check group
-                        document.querySelectorAll('.radio-group[id^="dietary"]').forEach(function(radioGroup) {
-                            radioGroup.classList.remove('checked');
-                        });
-                        group.classList.add('checked');
-
-                        if (radioId === 'dietaryYes') {
-                            // if yes, show text
-                            document.getElementById('dietaryNameGroup').style.height = '45px';
-                            document.getElementById('dietaryNameGroup').classList.add('visible-content');
-                            document.getElementById('dietaryNameGroup').classList.remove('hidden-content');
-                        } else {
-                            // if no, hide text
-                            document.getElementById('dietaryNameGroup').style.height = '0';
-                            document.getElementById('dietaryNameGroup').classList.remove('visible-content');
-                            document.getElementById('dietaryNameGroup').classList.add('hidden-content');
-                        }
-                        // in both cases show plus one
-                        document.getElementById('plusOneGroup').classList.add('visible-content');
-                        document.getElementById('plusOneGroup').classList.remove('hidden-content');
-                    } else if (groupId.startsWith('plusOne')) {
-                        document.querySelectorAll('.radio-group[id^="plusOne"]').forEach(function(radioGroup) {
-                            radioGroup.classList.remove('checked');
-                        });
-                        group.classList.add('checked');
-
-                        if (radioId === 'plusOneYes') {
-                            document.getElementById('guestNameGroup').style.height = '45px';
-                            document.getElementById('guestNameGroup').classList.add('visible-content');
-                            document.getElementById('guestNameGroup').classList.remove('hidden-content');
-                        } else {
-                            document.getElementById('guestNameGroup').style.height = '0';
-                            document.getElementById('guestNameGroup').classList.remove('visible-content');
-                            document.getElementById('guestNameGroup').classList.add('hidden-content');
-                        }
-
-                        // show submit button
-                        document.getElementById('submitButtonGroup').classList.add('visible-content');
-                        document.getElementById('submitButtonGroup').classList.remove('hidden-content');
-                    }
-                });
-            }
-            toggleRadioBackground('attendYes', 'attendYesGroup');
-            toggleRadioBackground('attendNo', 'attendNoGroup');
-            toggleRadioBackground('dietaryYes', 'dietaryYesGroup');
-            toggleRadioBackground('dietaryNo', 'dietaryNoGroup');
-            toggleRadioBackground('plusOneYes', 'plusOneYesGroup');
-            toggleRadioBackground('plusOneNo', 'plusOneNoGroup');
         });
+
+        function toggleRadioBackground(radioId, groupId) {
+            const radio = document.getElementById(radioId);
+            const group = document.getElementById(groupId);
+
+            group.addEventListener('click', function() {
+                radio.checked = true;
+
+                if (groupId.startsWith('attend')) {
+                    // attend check group
+                    document.querySelectorAll('.radio-group[id^="attend"]').forEach(function(radioGroup) {
+                        radioGroup.classList.remove('checked');
+                    });
+                    group.classList.add('checked');
+
+                    if (radioId === 'attendYes') {
+                        // show diet
+                        document.getElementById('dietaryGroup').classList.add('visible-content');
+                        document.getElementById('dietaryGroup').classList.remove('hidden-content');
+                    } else {
+                        // hide all elements
+                        document.getElementById('dietaryGroup').classList.remove('visible-content');
+                        document.getElementById('dietaryGroup').classList.add('hidden-content');
+
+                        document.getElementById('plusOneGroup').classList.remove('visible-content');
+                        document.getElementById('plusOneGroup').classList.add('hidden-content');
+
+                        document.getElementById('dietaryNameGroup').style.height = '0';
+                        document.getElementById('dietaryNameGroup').classList.remove('visible-content');
+                        document.getElementById('dietaryNameGroup').classList.add('hidden-content');
+
+                        document.getElementById('guestNameGroup').style.height = '0';
+                        document.getElementById('guestNameGroup').classList.remove('visible-content');
+                        document.getElementById('guestNameGroup').classList.add('hidden-content');
+
+                        document.getElementById('submitButtonGroup').classList.remove('visible-content');
+                        document.getElementById('submitButtonGroup').classList.add('hidden-content');
+
+                        //alert('Ok, bye!');
+                    }
+                } else if (groupId.startsWith('dietary')) {
+                    // dietary check group
+                    document.querySelectorAll('.radio-group[id^="dietary"]').forEach(function(radioGroup) {
+                        radioGroup.classList.remove('checked');
+                    });
+                    group.classList.add('checked');
+
+                    if (radioId === 'dietaryYes') {
+                        // if yes, show text
+                        document.getElementById('dietaryNameGroup').style.height = '45px';
+                        document.getElementById('dietaryNameGroup').classList.add('visible-content');
+                        document.getElementById('dietaryNameGroup').classList.remove('hidden-content');
+                    } else {
+                        // if no, hide text
+                        document.getElementById('dietaryNameGroup').style.height = '0';
+                        document.getElementById('dietaryNameGroup').classList.remove('visible-content');
+                        document.getElementById('dietaryNameGroup').classList.add('hidden-content');
+                    }
+                    // in both cases show plus one
+                    document.getElementById('plusOneGroup').classList.add('visible-content');
+                    document.getElementById('plusOneGroup').classList.remove('hidden-content');
+                } else if (groupId.startsWith('plusOne')) {
+                    document.querySelectorAll('.radio-group[id^="plusOne"]').forEach(function(radioGroup) {
+                        radioGroup.classList.remove('checked');
+                    });
+                    group.classList.add('checked');
+
+                    if (radioId === 'plusOneYes') {
+                        document.getElementById('guestNameGroup').style.height = '45px';
+                        document.getElementById('guestNameGroup').classList.add('visible-content');
+                        document.getElementById('guestNameGroup').classList.remove('hidden-content');
+                    } else {
+                        document.getElementById('guestNameGroup').style.height = '0';
+                        document.getElementById('guestNameGroup').classList.remove('visible-content');
+                        document.getElementById('guestNameGroup').classList.add('hidden-content');
+                    }
+
+                    // show submit button
+                    document.getElementById('submitButtonGroup').classList.add('visible-content');
+                    document.getElementById('submitButtonGroup').classList.remove('hidden-content');
+                }
+            });
+        }
+        toggleRadioBackground('attendYes', 'attendYesGroup');
+        toggleRadioBackground('attendNo', 'attendNoGroup');
+        toggleRadioBackground('dietaryYes', 'dietaryYesGroup');
+        toggleRadioBackground('dietaryNo', 'dietaryNoGroup');
+        toggleRadioBackground('plusOneYes', 'plusOneYesGroup');
+        toggleRadioBackground('plusOneNo', 'plusOneNoGroup');
     </script>
 
     <script type="module">

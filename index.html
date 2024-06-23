@@ -306,21 +306,21 @@
 
     <script>
         document.getElementById('weddingForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+    //        event.preventDefault();
+//
+    //        const formData = new FormData(event.target);
+    //        const data = Object.fromEntries(formData.entries());
+    //        data.attend = formData.get('attend') === 'on';
+    //        data.dietary = formData.get('dietary') === 'on';
+     //       data.plusOne = formData.get('plus one \ guest name') === 'on';
 
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData.entries());
-            data.attend = formData.get('attend') === 'on';
-            data.dietary = formData.get('dietary') === 'on';
-            data.plusOne = formData.get('plus one \ guest name') === 'on';
-
-            console.log(data); // Handle the data as needed
-
+     //       console.log(data); // Handle the data as needed
+//
             // show end text
             document.getElementById('endpage').style.opacity = 1;
             document.getElementById('endpage').style.display = 'inline-block';
             document.querySelector('.centerform').classList.add('hidden');
-
+//
             // alert('Form submitted successfully!');
         });
 

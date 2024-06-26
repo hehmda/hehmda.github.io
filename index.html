@@ -235,7 +235,6 @@
 </head>
 
 <body>
-    <body>
     <div id="firstpage">
         <div id="typed-output"></div>
     </div>
@@ -292,10 +291,8 @@
     </div>
 
 
-
-
      <script>
-       document.addEventListener('DOMContentLoaded', function() {
+ document.addEventListener('DOMContentLoaded', function() {
     var options = {
         strings: ["You're invited!", "Farihin and Ryder’s Wedding Dinner", "At the Four Seasons KL on Sat, 30 Nov at 5.00pm", "Click to RSVP "],
         typeSpeed: 70,
@@ -311,6 +308,17 @@
             document.getElementById('firstpage').style.display = 'none';
             document.querySelector('.centerform').classList.remove('hidden');
         }, 500);
+    });
+
+    document.getElementById('name').addEventListener('input', function() {
+        if (this.value.length > 0) {
+            document.getElementById('dietaryGroup').classList.add('visible-content');
+            document.getElementById('dietaryGroup').classList.remove('hidden-content');
+        } else {
+            document.getElementById('dietaryGroup').classList.remove('visible-content');
+            document.getElementById('dietaryGroup').classList.add('hidden-content');
+            resetFormPart('dietaryGroup');
+        }
     });
 
     document.getElementById('weddingForm').addEventListener('submit', function(event) {
@@ -384,6 +392,19 @@
         document.getElementById('submitButtonGroup').classList.add('visible-content');
         document.getElementById('submitButtonGroup').classList.remove('hidden-content');
     });
+
+    function resetFormPart(id) {
+        const element = document.getElementById(id);
+        const radios = element.querySelectorAll('input[type="radio"]');
+        radios.forEach(radio => radio.checked = false);
+
+        const nestedElements = element.querySelectorAll('.form-group');
+        nestedElements.forEach(nestedElement => {
+            nestedElement.classList.remove('visible-content');
+            nestedElement.classList.add('hidden-content');
+            if (nestedElement.style.height) nestedElement.style.height = '0';
+        });
+    }
 });
     </script>
 

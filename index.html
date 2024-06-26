@@ -252,7 +252,6 @@
                     <h2>~ The Wedding of Farihin & Ryder ~</h2>
                     <input type="text" id="name" name="name" placeholder="Please Enter Your Name" autocomplete="off" required>
                 </div>
-                
                 <div class="form-group hidden-content" id="dietaryGroup">
                     <h4>Do you have any dietary restrictions?</h4>
                     <div class="choices-group">
@@ -296,186 +295,96 @@
 
 
      <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var options = {
-                strings: ["You're invited!" ,"Farihin and Ryder’s Wedding Dinner" ,"At the Four Seasons KL on Sat, 30 Nov at 5.00pm", "Click to RSVP "],
-                typeSpeed: 70,
-                backSpeed: 25,
-                loop: false
-            };
+       document.addEventListener('DOMContentLoaded', function() {
+    var options = {
+        strings: ["You're invited!", "Farihin and Ryder’s Wedding Dinner", "At the Four Seasons KL on Sat, 30 Nov at 5.00pm", "Click to RSVP "],
+        typeSpeed: 70,
+        backSpeed: 25,
+        loop: false
+    };
 
-            var typed = new Typed("#typed-output", options);
+    var typed = new Typed("#typed-output", options);
 
-            document.getElementById('typed-output').addEventListener('click', function() {
-                document.getElementById('firstpage').style.opacity = 0;
-                setTimeout(function() {
-                    document.getElementById('firstpage').style.display = 'none';
-                    document.querySelector('.centerform').classList.remove('hidden');
-                }, 500);
-            });
+    document.getElementById('typed-output').addEventListener('click', function() {
+        document.getElementById('firstpage').style.opacity = 0;
+        setTimeout(function() {
+            document.getElementById('firstpage').style.display = 'none';
+            document.querySelector('.centerform').classList.remove('hidden');
+        }, 500);
+    });
 
-            document.getElementById('weddingForm').addEventListener('submit', function(event) {
-                event.preventDefault();
+    document.getElementById('weddingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-                var endOutputElement = document.getElementById('end-output');
-                var endMessage = "Dress code: Pastel or neutral-coloured (i.e. no bright colours) traditional Malaysian formal-ware. The more traditional, the better (e.g. kebaya songket, sarees, cheongsams)";
-                
-                endOutputElement.innerHTML = '';
+        var endOutputElement = document.getElementById('end-output');
+        var endMessage = "Dress code: Pastel or neutral-coloured (i.e. no bright colours) traditional Malaysian formal-ware. The more traditional, the better (e.g. kebaya songket, sarees, cheongsams)";
+        
+        endOutputElement.innerHTML = '';
 
-                var typedEndMessage = new Typed(endOutputElement, {
-                    strings: [endMessage],
-                    typeSpeed: 70,
-                    backSpeed: 25,
-                    showCursor: false,
-                    onComplete: function() {}
-                });
-
-                document.getElementById('endpage').style.opacity = 1;
-                document.getElementById('endpage').style.display = 'inline-block';
-                document.querySelector('.centerform').classList.add('hidden');
-
-                // Get form data
-                var formData = new FormData(event.target);
-                var data = {
-                    name: formData.get('name'),
-                  
-                    dietary: formData.get('dietary') === 'Yes' ? formData.get('dietaryName') : 'No',
-                    plusOne: formData.get('plusOne') === 'Yes' ? formData.get('guestName') : 'No'
-                };
-
-                // Convert data object to query string
-                var queryString = new URLSearchParams(data).toString();
-
-                // Send data to Google Apps Script
-                fetch('https://script.google.com/macros/s/AKfycbyPoIwaoekVM35FddcWHNDIpfeGsjvvuoEgRPPnPd5ZyAWtaGK8Z3SAtfKYRyDvPAWg6g/exec?' + queryString, {
-                    method: 'GET',
-                })
-                .then(response => response.json())
-                .then(result => {
-                    console.log('Success:', result);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            });
-
-            document.getElementById('attendNoGroup').addEventListener('click', function() {
-                if (document.getElementById('attendNo').checked) {
-                    var okByeMessageElement = document.getElementById('okByeMessage');
-                    var okByeText = "Thank you.";
-
-                    okByeMessageElement.innerHTML = '';
-
-                    var typedOkByeMessage = new Typed(okByeMessageElement, {
-                        strings: [okByeText],
-                        typeSpeed: 70,
-                        backSpeed: 25,
-                        showCursor: false,
-                        onComplete: function() {
-                            setTimeout(function() {
-                                okByeMessageElement.style.opacity = 1;
-                                // Set a timeout to hide the message after 5 seconds
-                                setTimeout(function() {
-                                    okByeMessageElement.style.opacity = 0;
-                                }, 5000); // 5000 milliseconds = 5 seconds
-                            }, 300); // Delay before showing the message
-                        }
-                    });
-
-                    document.getElementById('endpage').style.opacity = 1;
-                    document.getElementById('endpage').style.display = 'inline-block';
-                    document.querySelector('.centerform').classList.add('hidden');
-                }
-            });
-
-            function toggleRadioBackground(radioId, groupId) {
-                const radio = document.getElementById(radioId);
-                const group = document.getElementById(groupId);
-
-                group.addEventListener('click', function() {
-                    radio.checked = true;
-
-                    if (groupId.startsWith('attend')) {
-                        // attend check group
-                        document.querySelectorAll('.radio-group[id^="attend"]').forEach(function(radioGroup) {
-                            radioGroup.classList.remove('checked');
-                        });
-                        group.classList.add('checked');
-
-                        if (radioId === 'attendYes') {
-                            // show diet
-                            document.getElementById('dietaryGroup').classList.add('visible-content');
-                            document.getElementById('dietaryGroup').classList.remove('hidden-content');
-                        } else {
-                            // hide all elements
-                            document.getElementById('dietaryGroup').classList.remove('visible-content');
-                            document.getElementById('dietaryGroup').classList.add('hidden-content');
-
-                            document.getElementById('plusOneGroup').classList.remove('visible-content');
-                            document.getElementById('plusOneGroup').classList.add('hidden-content');
-
-                            document.getElementById('dietaryNameGroup').style.height = '0';
-                            document.getElementById('dietaryNameGroup').classList.remove('visible-content');
-                            document.getElementById('dietaryNameGroup').classList.add('hidden-content');
-
-                            document.getElementById('guestNameGroup').style.height = '0';
-                            document.getElementById('guestNameGroup').classList.remove('visible-content');
-                            document.getElementById('guestNameGroup').classList.add('hidden-content');
-
-                            document.getElementById('submitButtonGroup').classList.remove('visible-content');
-                            document.getElementById('submitButtonGroup').classList.add('hidden-content');
-                        }
-                    } else if (groupId.startsWith('dietary')) {
-
-                        // dietary check group
-                        document.querySelectorAll('.radio-group[id^="dietary"]').forEach(function(radioGroup) {
-                            radioGroup.classList.remove('checked');
-                        });
-                        group.classList.add('checked');
-
-                        if (radioId === 'dietaryYes') {
-                            // if yes, show text
-                            document.getElementById('dietaryNameGroup').style.height = '45px';
-                            document.getElementById('dietaryNameGroup').classList.add('visible-content');
-                            document.getElementById('dietaryNameGroup').classList.remove('hidden-content');
-                        } else {
-                            // if no, hide text
-                            document.getElementById('dietaryNameGroup').style.height = '0';
-                            document.getElementById('dietaryNameGroup').classList.remove('visible-content');
-                            document.getElementById('dietaryNameGroup').classList.add('hidden-content');
-                        }
-                        // in both cases show plus one
-                        document.getElementById('plusOneGroup').classList.add('visible-content');
-                        document.getElementById('plusOneGroup').classList.remove('hidden-content');
-                    } else if (groupId.startsWith('plusOne')) {
-                        document.querySelectorAll('.radio-group[id^="plusOne"]').forEach(function(radioGroup) {
-                            radioGroup.classList.remove('checked');
-                        });
-                        group.classList.add('checked');
-
-                        if (radioId === 'plusOneYes') {
-                            document.getElementById('guestNameGroup').style.height = '45px';
-                            document.getElementById('guestNameGroup').classList.add('visible-content');
-                            document.getElementById('guestNameGroup').classList.remove('hidden-content');
-                        } else {
-                            document.getElementById('guestNameGroup').style.height = '0';
-                            document.getElementById('guestNameGroup').classList.remove('visible-content');
-                            document.getElementById('guestNameGroup').classList.add('hidden-content');
-                        }
-
-                        // show submit button
-                        document.getElementById('submitButtonGroup').classList.add('visible-content');
-                        document.getElementById('submitButtonGroup').classList.remove('hidden-content');
-                    }
-                });
-            }
-            toggleRadioBackground('attendYes', 'attendYesGroup');
-            toggleRadioBackground('attendNo', 'attendNoGroup');
-            toggleRadioBackground('dietaryYes', 'dietaryYesGroup');
-            toggleRadioBackground('dietaryNo', 'dietaryNoGroup');
-            toggleRadioBackground('plusOneYes', 'plusOneYesGroup');
-            toggleRadioBackground('plusOneNo', 'plusOneNoGroup');
+        var typedEndMessage = new Typed(endOutputElement, {
+            strings: [endMessage],
+            typeSpeed: 70,
+            backSpeed: 25,
+            showCursor: false,
+            onComplete: function() {}
         });
+
+        document.getElementById('endpage').style.opacity = 1;
+        document.getElementById('endpage').style.display = 'inline-block';
+        document.querySelector('.centerform').classList.add('hidden');
+
+        // Get form data
+        var formData = new FormData(event.target);
+        var data = {
+            name: formData.get('name'),
+            dietary: formData.get('dietary') === 'Yes' ? formData.get('dietaryName') : 'No',
+            plusOne: formData.get('plusOne') === 'Yes' ? formData.get('guestName') : 'No'
+        };
+
+        // Convert data object to query string
+        var queryString = new URLSearchParams(data).toString();
+
+        // Send data to Google Apps Script
+        fetch('https://script.google.com/macros/s/AKfycbyPoIwaoekVM35FddcWHNDIpfeGsjvvuoEgRPPnPd5ZyAWtaGK8Z3SAtfKYRyDvPAWg6g/exec?' + queryString, {
+            method: 'GET',
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log('Success:', result);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
+    document.getElementById('dietaryGroup').addEventListener('click', function() {
+        if (document.getElementById('dietaryYes').checked) {
+            document.getElementById('dietaryNameGroup').style.height = '45px';
+            document.getElementById('dietaryNameGroup').classList.add('visible-content');
+            document.getElementById('dietaryNameGroup').classList.remove('hidden-content');
+        } else {
+            document.getElementById('dietaryNameGroup').style.height = '0';
+            document.getElementById('dietaryNameGroup').classList.remove('visible-content');
+            document.getElementById('dietaryNameGroup').classList.add('hidden-content');
+        }
+        document.getElementById('plusOneGroup').classList.add('visible-content');
+        document.getElementById('plusOneGroup').classList.remove('hidden-content');
+    });
+
+    document.getElementById('plusOneGroup').addEventListener('click', function() {
+        if (document.getElementById('plusOneYes').checked) {
+            document.getElementById('guestNameGroup').style.height = '45px';
+            document.getElementById('guestNameGroup').classList.add('visible-content');
+            document.getElementById('guestNameGroup').classList.remove('hidden-content');
+        } else {
+            document.getElementById('guestNameGroup').style.height = '0';
+            document.getElementById('guestNameGroup').classList.remove('visible-content');
+            document.getElementById('guestNameGroup').classList.add('hidden-content');
+        }
+        document.getElementById('submitButtonGroup').classList.add('visible-content');
+        document.getElementById('submitButtonGroup').classList.remove('hidden-content');
+    });
+});
     </script>
 
     <script type="module">

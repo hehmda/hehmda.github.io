@@ -253,7 +253,7 @@
                     <br>
                     <input type="text" id="name" name="name" placeholder="Please Enter Your Name" autocomplete="off" required>
                 </div>
-                <div class="form-group" id="attendGroup">
+       /*         <div class="form-group" id="attendGroup">
                     <h4>Can you attend?</h4>
                     <div class="choices-group">
                         <div class="radio-group" id="attendYesGroup">
@@ -265,7 +265,7 @@
                             <label for="attendNo">No</label>
                         </div>
                     </div>
-                </div>
+         */       </div>
                 <div class="form-group hidden-content" id="dietaryGroup">
                     <h4>Do you have any dietary restrictions?</h4>
                     <div class="choices-group">
@@ -360,7 +360,7 @@
                 var queryString = new URLSearchParams(data).toString();
 
                 // Send data to Google Apps Script
-                fetch('https://script.google.com/macros/s/AKfycbyihgvxUjRkWObTgUQX6aA18GFriNWe363TZr25YoCShBEW5F9sdh6AuS9Qc3XDJBGCaw/exec?' + queryString, {
+                fetch('https://script.google.com/macros/s/AKfycbyPoIwaoekVM35FddcWHNDIpfeGsjvvuoEgRPPnPd5ZyAWtaGK8Z3SAtfKYRyDvPAWg6g/exec?' + queryString, {
                     method: 'GET',
                 })
                 .then(response => response.json())
@@ -408,7 +408,7 @@
                 group.addEventListener('click', function() {
                     radio.checked = true;
 
-                    if (groupId.startsWith('attend')) {
+                  /*  if (groupId.startsWith('attend')) {
                         // attend check group
                         document.querySelectorAll('.radio-group[id^="attend"]').forEach(function(radioGroup) {
                             radioGroup.classList.remove('checked');
@@ -438,7 +438,8 @@
                             document.getElementById('submitButtonGroup').classList.remove('visible-content');
                             document.getElementById('submitButtonGroup').classList.add('hidden-content');
                         }
-                    } else if (groupId.startsWith('dietary')) {
+             */       } else if (groupId.startsWith('dietary')) {
+		if (groupId.startsWith('dietary')) {
                         // dietary check group
                         document.querySelectorAll('.radio-group[id^="dietary"]').forEach(function(radioGroup) {
                             radioGroup.classList.remove('checked');
